@@ -8,15 +8,17 @@ configDotenv()
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
+  host: process.env.DB_HOST,
+  port: 14369,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  autoLoadEntities: true, 
-  synchronize: true,
-  entities: [User]
+  synchronize: false,
+  entities: [User],
   migrations: ['dist/migrations/*.js'],
-  migrationsTableName: 'migrations'
+  migrationsTableName: 'migrations',
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 export default dataSource;
