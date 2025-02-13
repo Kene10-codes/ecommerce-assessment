@@ -6,28 +6,18 @@ import { configDotenv } from 'dotenv';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
-import { User } from './users/entity/User.entity';
+import { dataSourceOptions } from './typeorm.config';
+import { SeederModule } from './seeders/seeder.module';
 
 configDotenv()
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: 14369,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      synchronize: false,
-      entities: [User],
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
     UsersModule,
     AuthModule,
-    MailModule
+    MailModule,
+    SeederModule
   ],
   controllers: [AppController],
   providers: [AppService],
